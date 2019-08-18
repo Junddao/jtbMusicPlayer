@@ -3,7 +3,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ourpromise/accountpage.dart';
 import 'package:ourpromise/searchPage.dart';
-import 'package:ourpromise/writepage.dart';
+import 'package:ourpromise/listpage.dart';
 import 'package:provider/provider.dart';
 import 'data/tabstates.dart';
 
@@ -13,7 +13,7 @@ class TabPage extends StatefulWidget {
 }
 
 class _TabPageState extends State<TabPage> {
-  final List<Widget> _tabs = [WritePage(), SearchPage(), AccountPage()];
+  final List<Widget> _tabs = [ListPage(), SearchPage(), AccountPage()];
 
   @override
   Widget build(BuildContext context) {
