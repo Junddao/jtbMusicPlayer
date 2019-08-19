@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ourpromise/data/userinfo.dart';
+import 'package:jtbMusicPlayer/data/userinfo.dart';
 import 'package:provider/provider.dart';
 
 class AccountPage extends StatefulWidget {

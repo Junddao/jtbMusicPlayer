@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:964878691060:android:ee60f124bfecc3c3",
         "android_client_info": {
-          "package_name": "com.jtb.ourpromise"
+          "package_name": "com.jtb.jtbMusicPlayer"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "964878691060-rqcv5h0p8s0kthfja7gdhe7inu9gb7km.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.jtb.ourpromise",
+            "package_name": "com.jtb.jtbMusicPlayer",
             "certificate_hash": "c0fe33c4e57fa9fd69cc83918da4692b8627d050"
           }
         },

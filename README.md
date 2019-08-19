@@ -1,4 +1,4 @@
-# ourpromise
+# jtbMusicPlayer
 
 A new Flutter application.
 

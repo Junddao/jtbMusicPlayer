@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ourpromise/data/tabstates.dart';
-import 'package:ourpromise/rootpage.dart';
+import 'package:jtbMusicPlayer/data/tabstates.dart';
+import 'package:jtbMusicPlayer/rootpage.dart';
 import 'package:provider/provider.dart';
 import 'data/userinfo.dart';
 

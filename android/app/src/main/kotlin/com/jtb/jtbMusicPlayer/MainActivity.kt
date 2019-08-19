@@ -1,4 +1,4 @@
-package com.jtb.ourpromise
+package com.jtb.jtbMusicPlayer
 
 import android.os.Bundle
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ourpromise/loginpage.dart';
+import 'package:jtbMusicPlayer/loginpage.dart';
 
 class RootPage extends StatelessWidget {
 
