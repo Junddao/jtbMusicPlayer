@@ -13,8 +13,6 @@ class UserInfomation with ChangeNotifier{
 
 }
 
-
-
 class UserInfoDetails{
   final String providerDetails;
   final String userName;
