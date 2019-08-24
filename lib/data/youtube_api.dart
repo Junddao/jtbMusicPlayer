@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:youtube_api/_api.dart';
@@ -15,6 +16,7 @@ class YoutubeAPI {
   int maxResults;
   API api;
   int page;
+
 
 //  Constructor
   YoutubeAPI(this.key, {String type, int maxResults: 10}) {
@@ -146,6 +148,18 @@ class YoutubeAPI {
   set setType(String type) => api.type = type;
 
   String get getType => api.type;
+}
+
+
+class YoutubeInfo with ChangeNotifier{
+  List<YT_API> _liYoutubeInfo = [];
+
+  List<YT_API> get liYoutubeInfo => _liYoutubeInfo;
+
+  set liYoutubeInfo(List<YT_API> liYoutubeInfo) {
+    _liYoutubeInfo = liYoutubeInfo;
+    notifyListeners();
+  }
 }
 
 //To Reduce import

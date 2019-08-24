@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jtbMusicPlayer/data/tabstates.dart';
 import 'package:jtbMusicPlayer/rootpage.dart';
 import 'package:provider/provider.dart';
+import 'package:jtbMusicPlayer/data/youtube_api.dart';
 import 'data/userinfo.dart';
 
 
@@ -14,6 +15,7 @@ class MyApp extends StatelessWidget {
         providers: [
           ChangeNotifierProvider<UserInfomation>( builder : (context) => UserInfomation(),),
           ChangeNotifierProvider<TabStates> (builder : (context) => TabStates(),),
+          ChangeNotifierProvider<YoutubeInfo> (builder: (context) => YoutubeInfo(),),
         ] ,
         child: MaterialApp(
           home : new RootPage(),
