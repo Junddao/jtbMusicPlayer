@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jtbMusicPlayer/data/youtube_api.dart';
 import 'package:jtbMusicPlayer/youtubeplayder.dart';
+import 'package:jtbMusicPlayer/videoplayer.dart';
 import 'package:provider/provider.dart';
 
 
@@ -96,6 +97,7 @@ class _ListPageState extends State<ListPage> with ChangeNotifier {
   void _onItemTapped(int index)
   {
     String _url = Provider.of<YoutubeInfo>(context).liYoutubeInfo[index].url.replaceAll(" ", "");
-    Navigator.push(context, MaterialPageRoute(builder: (context) => MyYoutubePlayer( url: _url,)));
+    // Navigator.push(context, MaterialPageRoute(builder: (context) => MyYoutubePlayer( url: _url,)));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => JtbVideoPlayer( url: _url,)));
   }
 }

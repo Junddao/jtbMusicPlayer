@@ -15,8 +15,6 @@ class MyYoutubePlayer extends StatefulWidget {
 class _MyYoutubePlayerState extends State<MyYoutubePlayer> {
 
   static const platform = const MethodChannel("np.com.sarbagyastha.example");
-  TextEditingController _idController = TextEditingController();
-  TextEditingController _seekToController = TextEditingController();
   double _volume = 1.0;
   VideoPlayerController _videoController;
   String position = "Get Current Position";
