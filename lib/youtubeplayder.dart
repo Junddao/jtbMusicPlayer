@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:youtube_player/youtube_player.dart';
 
+
 class MyYoutubePlayer extends StatefulWidget {
 
   final String url;
@@ -68,35 +69,6 @@ class _MyYoutubePlayerState extends State<MyYoutubePlayer> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      IconButton(
-                        icon: Icon(Icons.play_arrow),
-                        onPressed: () => _videoController.value.isPlaying
-                            ? null
-                            : _videoController.play(),
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.pause),
-                        onPressed: () => _videoController.pause(),
-                      ),
-                      IconButton(
-                        icon: Icon(isMute ? Icons.volume_off : Icons.volume_up),
-                        onPressed: () {
-                          _videoController.setVolume(isMute ? 1 : 0);
-                          setState(
-                            () {
-                              isMute = !isMute;
-                            },
-                          );
-                        },
-                      ),
-                    ],
-                  ),
                   
                   Row(
                     children: <Widget>[

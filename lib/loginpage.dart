@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:jtbMusicPlayer/tabpage.dart';
+import 'package:jtbMusicPlayer/mainlistpage.dart';
 import 'data/userinfo.dart';
 import 'package:provider/provider.dart';
 
@@ -36,7 +36,7 @@ class _LoginPageState extends State<LoginPage> {
       idToken: googleAuth.idToken,
     );
 
-    FirebaseUser userDetails = await _auth.signInWithCredential(credential);
+    FirebaseUser userDetails = (await _auth.signInWithCredential(credential)) as FirebaseUser;
     
     ProviderDetails providerInfo = new ProviderDetails(userDetails.providerId);
 
@@ -53,7 +53,7 @@ class _LoginPageState extends State<LoginPage> {
 
     Provider.of<UserInfomation>(context).details = details;
     
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => TabPage()));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ListMainPage()));
   }
 
   @override
