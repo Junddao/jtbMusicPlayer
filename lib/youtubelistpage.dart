@@ -42,6 +42,10 @@ class _YoutubeListPageState extends State<YoutubeListPage> with ChangeNotifier {
   Widget build(BuildContext context) {
 
     return Scaffold(
+      appBar: AppBar(
+        title : Text('JTB Music Player'),
+        centerTitle: true,
+      ),
       body : ListView.builder(
         itemCount: Provider.of<YoutubeInfo>(context).liYoutubeInfo.length,
         itemBuilder: (_, int index) {

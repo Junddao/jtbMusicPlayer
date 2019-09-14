@@ -27,13 +27,17 @@ class _MyYoutubePlayerState extends State<MyYoutubePlayer> {
   void initState() {
     // getSharedVideoUrl();
     super.initState();
+    
   }
 
   @override
   Widget build(BuildContext context) {
+
+    
+
     return Scaffold(
       appBar: AppBar(
-        title : Text('JTB'),
+        title : Text('JTB Music Player'),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -72,10 +76,7 @@ class _MyYoutubePlayerState extends State<MyYoutubePlayer> {
                   
                   Row(
                     children: <Widget>[
-                      Text(
-                        "Volume",
-                        style: TextStyle(fontWeight: FontWeight.w300),
-                      ),
+                      Icon(Icons.volume_up),
                       Expanded(
                         child: Slider(
                           inactiveColor: Colors.transparent,

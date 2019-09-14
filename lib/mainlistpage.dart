@@ -7,6 +7,43 @@ import 'package:flutter/material.dart';
 class ListMainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    
+    //admob init
+    String appId = "ca-app-pub-9695790043722201~8654840320";
+    FirebaseAdMob.instance.initialize(appId: appId);
+
+    //banner 생성
+    MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
+      keywords: <String>['game', 'overwatch'],
+      contentUrl: 'https://flutter.io',
+      childDirected: false,
+      testDevices: <String>[], // Android emulators are considered test devices
+    );
+
+    BannerAd myBanner = BannerAd(
+      // Replace the testAdUnitId with an ad unit id from the AdMob dash.
+      // https://developers.google.com/admob/android/test-ads
+      // https://developers.google.com/admob/ios/test-ads
+      // adUnitId: BannerAd.testAdUnitId,
+      adUnitId: "ca-app-pub-9695790043722201/3765282201",
+      size: AdSize.smartBanner,
+      targetingInfo: targetingInfo,
+      listener: (MobileAdEvent event) {
+        print("BannerAd event is $event");
+      },
+    );
+
+    myBanner
+      // typically this happens well before the ad is shown
+      ..load()
+      ..show(
+        // Positions the banner ad 60 pixels from the bottom of the screen
+        anchorOffset: 0.0,
+        // Banner Position
+        anchorType: AnchorType.bottom,
+      );
+
+
     return new MaterialApp(
       title: 'Flutter Demo',
       
@@ -31,42 +68,7 @@ class _ListPageState extends State<ListPage> {
 
   @override
   Widget build(BuildContext context) {
-
-    //admob init
-    String appId = "ca-app-pub-9695790043722201~8654840320";
-    FirebaseAdMob.instance.initialize(appId: appId);
-
-    //banner 생성
-    MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
-      keywords: <String>['game', 'overwatch'],
-      contentUrl: 'https://flutter.io',
-      childDirected: false,
-      testDevices: <String>[], // Android emulators are considered test devices
-    );
-
-    BannerAd myBanner = BannerAd(
-      // Replace the testAdUnitId with an ad unit id from the AdMob dash.
-      // https://developers.google.com/admob/android/test-ads
-      // https://developers.google.com/admob/ios/test-ads
-      adUnitId: BannerAd.testAdUnitId,
-      size: AdSize.smartBanner,
-      targetingInfo: targetingInfo,
-      listener: (MobileAdEvent event) {
-        print("BannerAd event is $event");
-      },
-    );
-
-    myBanner
-      // typically this happens well before the ad is shown
-      ..load()
-      ..show(
-        // Positions the banner ad 60 pixels from the bottom of the screen
-        anchorOffset: 60.0,
-        // Positions the banner ad 10 pixels from the center of the screen to the right
-        horizontalCenterOffset: 10.0,
-        // Banner Position
-        anchorType: AnchorType.bottom,
-      );
+    
 
     final titles = ['공부할 때 듣기 좋은 음악', '잠잘 때 듣기 좋은 음악', '운전할 때 듣기 좋은 음악', '운동할 때 듣기 좋은 음악',
       '카페에서 듣기 좋은 음악', '쉴때 듣기 좋은 음악', '컬투쇼 베스트'];
