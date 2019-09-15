@@ -106,7 +106,5 @@ class _YoutubeListPageState extends State<YoutubeListPage> with ChangeNotifier {
   {
     String _url = Provider.of<YoutubeInfo>(context).liYoutubeInfo[index].url.replaceAll(" ", "");
     Navigator.push(context, MaterialPageRoute(builder: (context) => MyYoutubePlayer( url: _url,)));
-    // Navigator.push(context, MaterialPageRoute(builder: (context) => JtbVideoPlayer( url: _url,)));
-    // Navigator.push(context, MaterialPageRoute(builder: (context) => JtbPlayer( url: _url,)));
   }
 }
