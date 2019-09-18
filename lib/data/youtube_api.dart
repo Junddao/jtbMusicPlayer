@@ -19,7 +19,7 @@ class YoutubeAPI {
 
 
 //  Constructor
-  YoutubeAPI(this.key, {String type, int maxResults: 10}) {
+  YoutubeAPI(this.key, {String type, int maxResults: 50}) {
     page = 0;
     this.type = type;
     this.maxResults = maxResults;

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jtbMusicPlayer/utils/flutkart.dart';
+import 'package:jtbMusicPlayer/utils/JtbSplashPageItem.dart';
 
 class HomeScreen extends StatefulWidget {
   @override

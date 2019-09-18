@@ -32,9 +32,6 @@ class _MyYoutubePlayerState extends State<MyYoutubePlayer> {
 
   @override
   Widget build(BuildContext context) {
-
-    
-
     return Scaffold(
       appBar: AppBar(
         title : Text('JTB Music Player'),
@@ -48,7 +45,7 @@ class _MyYoutubePlayerState extends State<MyYoutubePlayer> {
             YoutubePlayer(
               context: context,
               source:  widget.url,
-              quality: YoutubeQuality.LOWEST,
+              quality: YoutubeQuality.FHD,
               aspectRatio: 16 / 9,
               autoPlay: true,
               loop: false,
