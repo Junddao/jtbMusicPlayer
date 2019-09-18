@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jtbMusicPlayer/data/youtube_api.dart';
+import 'package:jtbMusicPlayer/services/myadshelper.dart';
 import 'package:jtbMusicPlayer/youtubeplayder.dart';
 // import 'package:jtbMusicPlayer/videoplayer.dart';
 
@@ -24,6 +25,7 @@ class _YoutubeListPageState extends State<YoutubeListPage> with ChangeNotifier {
   @override
   void initState() {
     super.initState();
+    Ads.hideBannerAd();
     callAPI();
     print('hello');
   }

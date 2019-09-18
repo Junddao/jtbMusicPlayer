@@ -1,11 +1,10 @@
-
-import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:jtbMusicPlayer/data/carditem.dart';
 import 'package:jtbMusicPlayer/services/dbhelper.dart';
 import 'package:jtbMusicPlayer/youtubelistpage.dart';
 import 'package:flutter/material.dart';
 import 'data/listmodel.dart';
+import 'services/myadshelper.dart';
 
 
 class ListMainPage extends StatelessWidget {
@@ -29,7 +28,7 @@ class ListPage extends StatefulWidget {
 
 class _ListPageState extends State<ListPage> {
 
-  ListModel<int> _list;
+  //ListModel<int> _list;
 
   String name;
   int curUserId;
@@ -58,32 +57,33 @@ class _ListPageState extends State<ListPage> {
         refreshList();
       }
     });
+    Ads.showBannerAd();
 
-    _list = ListModel<int>(initialItems: <int>[]);
+    //_list = ListModel<int>(initialItems: <int>[]);
 
-    //admob init
-    String appId = "ca-app-pub-9695790043722201~8654840320";
-    FirebaseAdMob.instance.initialize(appId: appId);
+
+    // //admob init
+    // String appId = "ca-app-pub-9695790043722201~8654840320";
+    // FirebaseAdMob.instance.initialize(appId: appId);
     
-    myBanner
-      // typically this happens well before the ad is shown
-      ..load().then((loaded) {
-        if(loaded && this.mounted) {
-          myBanner..show(
-            // Positions the banner ad 60 pixels from the bottom of the screen
-            anchorOffset: 0.0,
-            // Banner Position
-            anchorType: AnchorType.bottom,
-          );
-        }
-      });
+    // myBanner
+    //   // typically this happens well before the ad is shown
+    //   ..load().then((loaded) {
+    //     if(loaded && this.mounted) {
+    //       myBanner..show(
+    //         // Positions the banner ad 60 pixels from the bottom of the screen
+    //         anchorOffset: 0.0,
+    //         // Banner Position
+    //         anchorType: AnchorType.bottom,
+    //       );
+    //     }
+    //   });
   }
 
 
   @override
   void dispose()
   {
-    myBanner.dispose();
     super.dispose();
   }
 
@@ -242,38 +242,28 @@ class _ListPageState extends State<ListPage> {
 
   void search(String value) {
     
-    try{
-      if(myBanner.isLoaded() != null) myBanner.dispose();
-    }
-    catch(Exception)
-    {
-
-    }
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => YoutubeListPage( title: value,)));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => YoutubeListPage( title: value,)));
     controller.clear();
   }
-
-
-
 }
 
-//banner 생성
-MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
-  keywords: <String>['game', 'overwatch'],
-  contentUrl: 'https://flutter.io',
-  childDirected: false,
-  testDevices: <String>[], // Android emulators are considered test devices
-);
+// //banner 생성
+// MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
+//   keywords: <String>['game', 'overwatch'],
+//   contentUrl: 'https://flutter.io',
+//   childDirected: false,
+//   testDevices: <String>[], // Android emulators are considered test devices
+// );
 
-BannerAd myBanner = BannerAd(
-  // Replace the testAdUnitId with an ad unit id from the AdMob dash.
-  // https://developers.google.com/admob/android/test-ads
-  // https://developers.google.com/admob/ios/test-ads
-  // adUnitId: BannerAd.testAdUnitId,
-  adUnitId: "ca-app-pub-9695790043722201/3765282201",
-  size: AdSize.smartBanner,
-  targetingInfo: targetingInfo,
-  listener: (MobileAdEvent event) {
-    print("BannerAd event is $event");
-  },
-);
+// BannerAd myBanner = BannerAd(
+//   // Replace the testAdUnitId with an ad unit id from the AdMob dash.
+//   // https://developers.google.com/admob/android/test-ads
+//   // https://developers.google.com/admob/ios/test-ads
+//   // adUnitId: BannerAd.testAdUnitId,
+//   adUnitId: "ca-app-pub-9695790043722201/3765282201",
+//   size: AdSize.smartBanner,
+//   targetingInfo: targetingInfo,
+//   listener: (MobileAdEvent event) {
+//     print("BannerAd event is $event");
+//   },
+// );
