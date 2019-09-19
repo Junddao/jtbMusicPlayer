@@ -60,31 +60,6 @@ class _ListPageState extends State<ListPage> {
     Ads.showBannerAd();
 
     //_list = ListModel<int>(initialItems: <int>[]);
-
-
-    // //admob init
-    // String appId = "ca-app-pub-9695790043722201~8654840320";
-    // FirebaseAdMob.instance.initialize(appId: appId);
-    
-    // myBanner
-    //   // typically this happens well before the ad is shown
-    //   ..load().then((loaded) {
-    //     if(loaded && this.mounted) {
-    //       myBanner..show(
-    //         // Positions the banner ad 60 pixels from the bottom of the screen
-    //         anchorOffset: 0.0,
-    //         // Banner Position
-    //         anchorType: AnchorType.bottom,
-    //       );
-    //     }
-    //   });
-  }
-
-
-  @override
-  void dispose()
-  {
-    super.dispose();
   }
 
   refreshList() {
@@ -247,23 +222,3 @@ class _ListPageState extends State<ListPage> {
   }
 }
 
-// //banner 생성
-// MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
-//   keywords: <String>['game', 'overwatch'],
-//   contentUrl: 'https://flutter.io',
-//   childDirected: false,
-//   testDevices: <String>[], // Android emulators are considered test devices
-// );
-
-// BannerAd myBanner = BannerAd(
-//   // Replace the testAdUnitId with an ad unit id from the AdMob dash.
-//   // https://developers.google.com/admob/android/test-ads
-//   // https://developers.google.com/admob/ios/test-ads
-//   // adUnitId: BannerAd.testAdUnitId,
-//   adUnitId: "ca-app-pub-9695790043722201/3765282201",
-//   size: AdSize.smartBanner,
-//   targetingInfo: targetingInfo,
-//   listener: (MobileAdEvent event) {
-//     print("BannerAd event is $event");
-//   },
-// );

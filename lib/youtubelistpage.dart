@@ -6,19 +6,17 @@ import 'package:jtbMusicPlayer/youtubeplayder.dart';
 
 import 'package:provider/provider.dart';
 
-
 class YoutubeListPage extends StatefulWidget {
-
   final String title;
-  const YoutubeListPage({Key key, this.title}) : super(key:key);
+  const YoutubeListPage({Key key, this.title}) : super(key: key);
 
-    @override
+  @override
   _YoutubeListPageState createState() => _YoutubeListPageState();
 }
 
 class _YoutubeListPageState extends State<YoutubeListPage> with ChangeNotifier {
-
-  static String key = "AIzaSyAJqd4pfu0fx3-JSLlj7s27IubvsOl4liA";// ** ENTER YOUTUBE API KEY HERE **
+  static String key =
+      "AIzaSyAJqd4pfu0fx3-JSLlj7s27IubvsOl4liA"; // ** ENTER YOUTUBE API KEY HERE **
   YoutubeAPI ytApi = new YoutubeAPI(key);
   List<YT_API> liYT = [];
 
@@ -34,7 +32,7 @@ class _YoutubeListPageState extends State<YoutubeListPage> with ChangeNotifier {
     print('UI callled');
     String query = widget.title;
     liYT = await ytApi.search(query);
-     Provider.of<YoutubeInfo>(context).liYoutubeInfo = liYT;
+    Provider.of<YoutubeInfo>(context).liYoutubeInfo = liYT;
     setState(() {
       print('UI Updated');
     });
@@ -42,47 +40,45 @@ class _YoutubeListPageState extends State<YoutubeListPage> with ChangeNotifier {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
-        title : Text('JTB Music Player'),
+        title: Text('JTB Music Player'),
         centerTitle: true,
       ),
-      body : ListView.builder(
-        itemCount: Provider.of<YoutubeInfo>(context).liYoutubeInfo.length,
-        itemBuilder: (_, int index) {
-          return ListTile(
-            title: listItem(index),
-            onTap: (){
-              _onItemTapped(index);
-            },
-          );
-        }
-      )
-    );
+      body: ListView.builder(
+          itemCount:
+              Provider.of<YoutubeInfo>(context).liYoutubeInfo.length,
+          itemBuilder: (_, int index) {
+            return ListTile(
+              title: listItem(index),
+              onTap: () {
+                _onItemTapped(index);
+              },
+            );
+          }));
   }
 
-  Widget listItem(index){
+  Widget listItem(index) {
     return Consumer<YoutubeInfo>(
-      builder: (context, value, child) => 
-      new Card(
+      builder: (context, value, child) => new Card(
         child: new Container(
           margin: EdgeInsets.symmetric(vertical: 7.0),
           padding: EdgeInsets.all(12.0),
-          child:new Row(
+          child: new Row(
             children: <Widget>[
-            
-              new Image.network(value.liYoutubeInfo[index].thumbnail['default']['url'],),
+              new Image.network(
+                value.liYoutubeInfo[index].thumbnail['default']['url'],
+              ),
               new Padding(padding: EdgeInsets.only(right: 20.0)),
               new Expanded(
-                child: new Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
+                  child: new Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
                     new Text(
                       value.liYoutubeInfo[index].title,
                       softWrap: true,
-                      style: TextStyle(fontSize:18.0),
+                      style: TextStyle(fontSize: 18.0),
                     ),
                     new Padding(padding: EdgeInsets.only(bottom: 1.5)),
                     new Text(
@@ -94,9 +90,7 @@ class _YoutubeListPageState extends State<YoutubeListPage> with ChangeNotifier {
                       value.liYoutubeInfo[index].url,
                       softWrap: true,
                     ),
-                  ]
-                )
-              ),
+                  ])),
             ],
           ),
         ),
@@ -104,9 +98,17 @@ class _YoutubeListPageState extends State<YoutubeListPage> with ChangeNotifier {
     );
   }
 
-  void _onItemTapped(int index)
-  {
-    String _url = Provider.of<YoutubeInfo>(context).liYoutubeInfo[index].url.replaceAll(" ", "");
-    Navigator.push(context, MaterialPageRoute(builder: (context) => MyYoutubePlayer( url: _url,)));
+  void _onItemTapped(int index) {
+    String _url = Provider.of<YoutubeInfo>(context)
+        .liYoutubeInfo[index]
+        .url
+        .replaceAll(" ", "");
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => MyYoutubePlayer(
+                  url: _url,
+                )));
   }
+
 }
