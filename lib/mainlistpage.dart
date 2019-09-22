@@ -5,7 +5,21 @@ import 'package:jtbMusicPlayer/youtubelistpage.dart';
 import 'package:flutter/material.dart';
 import 'data/listmodel.dart';
 import 'services/myadshelper.dart';
+import 'package:speech_recognition/speech_recognition.dart';
 
+
+const languages = const [
+  
+  const Language('English', 'en_US'),
+  
+];
+
+class Language {
+  final String name;
+  final String code;
+
+  const Language(this.name, this.code);
+}
 
 class ListMainPage extends StatelessWidget {
   @override
@@ -30,6 +44,14 @@ class _ListPageState extends State<ListPage> {
 
   //ListModel<int> _list;
 
+  SpeechRecognition _speech;
+
+  bool _speechRecognitionAvailable = false;
+  bool _isListening = false;
+
+  //String _currentLocale = 'en_US';
+  Language selectedLang = languages.first;
+
   String name;
   int curUserId;
   
@@ -41,6 +63,7 @@ class _ListPageState extends State<ListPage> {
   @override
   void initState() {
     super.initState();  
+
     dbHelper = DBHelper();
     refreshList();
     Future.delayed(Duration(seconds: 5));
@@ -57,6 +80,8 @@ class _ListPageState extends State<ListPage> {
         refreshList();
       }
     });
+
+    activateSpeechRecognizer();
     Ads.showBannerAd();
 
     //_list = ListModel<int>(initialItems: <int>[]);
@@ -87,6 +112,7 @@ class _ListPageState extends State<ListPage> {
           children: <Widget>[
             form(),
             list(), 
+            voiceButton(),
           ],
         ),
       ),
@@ -105,7 +131,7 @@ class _ListPageState extends State<ListPage> {
             Flexible(
               child: new TextFormField(
                 controller: controller,
-                validator: (val) => val.length == 0 ? 'Enter title' : null,
+                //validator: (val) => val.length == 0 ? 'Enter title' : null,
                 onSaved: (val) => name = val,
                 //onSubmitted: _handleSubmitted,
                 decoration: new InputDecoration.collapsed(
@@ -215,10 +241,73 @@ class _ListPageState extends State<ListPage> {
     );
   }
 
+  voiceButton(){
+    return Expanded(
+      child : _buildButton(
+        onPressed: _speechRecognitionAvailable && !_isListening
+            ? () => start()
+            : null,
+      ),
+    );
+  }
+
+  Widget _buildButton({String label, VoidCallback onPressed}) => new Padding(
+      padding: new EdgeInsets.all(12.0),
+      child: new FloatingActionButton(
+        onPressed: onPressed,
+        child: Icon(Icons.mic),
+
+      ),
+    );
+
   void search(String value) {
     
     Navigator.push(context, MaterialPageRoute(builder: (context) => YoutubeListPage( title: value,)));
     controller.clear();
   }
-}
 
+
+void activateSpeechRecognizer() {
+    print('_MyAppState.activateSpeechRecognizer... ');
+    _speech = new SpeechRecognition();
+    _speech.setAvailabilityHandler(onSpeechAvailability);
+    _speech.setCurrentLocaleHandler(onCurrentLocale);
+    _speech.setRecognitionStartedHandler(onRecognitionStarted);
+    _speech.setRecognitionResultHandler(onRecognitionResult);
+    _speech.setRecognitionCompleteHandler(onRecognitionComplete);
+    _speech
+        .activate()
+        .then((res) => setState(() => _speechRecognitionAvailable = res));
+  }
+
+
+
+  void start() => _speech
+      // .listen(locale: selectedLang.code)
+      .listen(locale: "en_US")
+      .then((result) => print('_MyAppState.start => result $result'));
+
+  void cancel() =>
+      _speech.cancel().then((result) => setState(() => _isListening = result));
+
+  void stop() => _speech.stop().then((result) {
+        setState(() => _isListening = result);
+      });
+
+  void onSpeechAvailability(bool result) =>
+      setState(() => _speechRecognitionAvailable = result);
+
+  void onCurrentLocale(String locale) {
+    print('_MyAppState.onCurrentLocale... $locale');
+    setState(
+        () => selectedLang = languages.firstWhere((l) => l.code == locale));
+  }
+
+  void onRecognitionStarted() => setState(() => _isListening = true);
+
+  void onRecognitionResult(String text) => setState(() => controller.text = text);
+
+  void onRecognitionComplete() => setState(() => _isListening = false);
+
+  void errorHandler() => activateSpeechRecognizer();
+}

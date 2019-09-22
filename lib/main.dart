@@ -6,7 +6,8 @@ import 'package:provider/provider.dart';
 import 'package:jtbMusicPlayer/data/youtube_api.dart';
 import 'data/userinfo.dart';
 import 'package:splashscreen/splashscreen.dart';
-
+import 'package:permission_handler/permission_handler.dart';
+import 'package:upgrader/upgrader.dart';
 
 
 
@@ -25,9 +26,18 @@ class MyApp extends StatefulWidget{
   _MyAppState createState() => new _MyAppState();
 }
 
+final String appcastURL =
+      'https://raw.githubusercontent.com/larryaasen/upgrader/master/test/testappcast.xml';
+final cfg = AppcastConfiguration(url: appcastURL, supportedOS: ["android"]);
+
 class _MyAppState extends State<MyApp>{
   @override
   Widget build(BuildContext context) {
+    UpgradeAlert(
+      appcastConfig: cfg,
+      child: Center(child: Text('Checking...')),
+    );
+    
     return new SplashScreen(
       seconds: 3,
       navigateAfterSeconds: new AfterSplash(),
@@ -56,6 +66,8 @@ class _MyAppState extends State<MyApp>{
 class AfterSplash extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+   
+    permission();
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<UserInfomation>( builder : (context) => UserInfomation(),),
@@ -67,6 +79,13 @@ class AfterSplash extends StatelessWidget {
 
       )
     );
+  }
+
+  void permission() async {
+
+    Map<PermissionGroup, PermissionStatus> permissions = await PermissionHandler().requestPermissions([PermissionGroup.microphone]);
+    print('per1 : $permissions');
+    
   }
 }
 
