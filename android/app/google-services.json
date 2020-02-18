@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "779885439164",
+    "firebase_url": "https://jtbmusicplayer.firebaseio.com",
+    "project_id": "jtbmusicplayer",
+    "storage_bucket": "jtbmusicplayer.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:779885439164:android:8f04adbd637b4484",
+        "android_client_info": {
+          "package_name": "com.jtb.jtbMusicPlayer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "779885439164-d76emptqi8enevilj47oc1tmb6eqdfgi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jtb.jtbMusicPlayer",
+            "certificate_hash": "37e3bc175b8db93a638c4ee987869f6f2416ee58"
+          }
+        },
+        {
+          "client_id": "779885439164-1eqkd5ttooq8o4927n7q6k2mkk3cb91r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxQmv2valMvsBzalTF6Hae575JGNbohI8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "779885439164-1eqkd5ttooq8o4927n7q6k2mkk3cb91r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
