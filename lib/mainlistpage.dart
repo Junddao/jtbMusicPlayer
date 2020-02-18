@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:jtbMusicPlayer/services/dbhelper.dart';
 import 'package:jtbMusicPlayer/web_page.dart';
-import 'package:jtbMusicPlayer/youtubelistpage.dart';
+
 import 'package:flutter/material.dart';
 import 'data/listmodel.dart';
 import 'services/myadshelper.dart';
@@ -83,7 +83,7 @@ class _ListPageState extends State<ListPage> {
       }
     });
 
-    activateSpeechRecognizer();
+    // activateSpeechRecognizer();
     Ads.showBannerAd();
 
     //_list = ListModel<int>(initialItems: <int>[]);
