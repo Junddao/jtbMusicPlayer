@@ -71,7 +71,7 @@ class _ListPageState extends State<ListPage> {
     Future.delayed(Duration(seconds: 5));
     listItems.then((data){
       if(data.isEmpty) {
-        ListItem listItem1 = ListItem(null, '왓썹맨');
+        ListItem listItem1 = ListItem(null, '뽀로로');
         dbHelper.save(listItem1);
         ListItem listItem2 = ListItem(null, '워크맨');
         dbHelper.save(listItem2);
