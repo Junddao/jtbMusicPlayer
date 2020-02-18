@@ -1,4 +1,3 @@
-// import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 import 'package:jtbMusicPlayer/data/tabstates.dart';
 import 'package:jtbMusicPlayer/rootpage.dart';
@@ -7,7 +6,6 @@ import 'package:jtbMusicPlayer/data/youtube_api.dart';
 import 'data/userinfo.dart';
 import 'package:splashscreen/splashscreen.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:upgrader/upgrader.dart';
 
 
 
@@ -19,27 +17,17 @@ void main(){
   );
 }
 
-
-
 class MyApp extends StatefulWidget{
   @override
   _MyAppState createState() => new _MyAppState();
 }
 
-final String appcastURL =
-      'https://raw.githubusercontent.com/larryaasen/upgrader/master/test/testappcast.xml';
-final cfg = AppcastConfiguration(url: appcastURL, supportedOS: ["android"]);
-
 class _MyAppState extends State<MyApp>{
   @override
   Widget build(BuildContext context) {
-    UpgradeAlert(
-      appcastConfig: cfg,
-      child: Center(child: Text('Checking...')),
-    );
-    
+
     return new SplashScreen(
-      seconds: 3,
+      seconds: 1,
       navigateAfterSeconds: new AfterSplash(),
       title: new Text('/ J T B /',
       style: new TextStyle(

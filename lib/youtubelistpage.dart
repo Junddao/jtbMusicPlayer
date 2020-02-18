@@ -23,9 +23,9 @@ class _YoutubeListPageState extends State<YoutubeListPage> with ChangeNotifier {
   @override
   void initState() {
     super.initState();
-    Ads.hideBannerAd();
     callAPI();
     print('hello');
+    Ads.hideBannerAd();
   }
 
   callAPI() async {
@@ -42,7 +42,7 @@ class _YoutubeListPageState extends State<YoutubeListPage> with ChangeNotifier {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('JTB Music Player'),
+        title: Text('JTB Player'),
         centerTitle: true,
       ),
       body: ListView.builder(

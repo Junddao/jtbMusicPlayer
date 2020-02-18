@@ -30,7 +30,7 @@ class _MyYoutubePlayerState extends State<MyYoutubePlayer> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('JTB Music Player'),
+          title: Text('JTB Player'),
           centerTitle: true,
         ),
         body: SingleChildScrollView(

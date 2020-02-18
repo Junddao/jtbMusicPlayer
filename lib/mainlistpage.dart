@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:jtbMusicPlayer/data/carditem.dart';
 import 'package:jtbMusicPlayer/services/dbhelper.dart';
+import 'package:jtbMusicPlayer/web_page.dart';
 import 'package:jtbMusicPlayer/youtubelistpage.dart';
 import 'package:flutter/material.dart';
 import 'data/listmodel.dart';
@@ -48,12 +48,14 @@ class _ListPageState extends State<ListPage> {
 
   bool _speechRecognitionAvailable = false;
   bool _isListening = false;
+  bool _isMicPushed = false;
 
   //String _currentLocale = 'en_US';
   Language selectedLang = languages.first;
-
   String name;
   int curUserId;
+
+
   
   Future<List<ListItem>> listItems;
   TextEditingController controller = TextEditingController();
@@ -69,11 +71,11 @@ class _ListPageState extends State<ListPage> {
     Future.delayed(Duration(seconds: 5));
     listItems.then((data){
       if(data.isEmpty) {
-        ListItem listItem1 = ListItem(null, '오버워치');
+        ListItem listItem1 = ListItem(null, '왓썹맨');
         dbHelper.save(listItem1);
-        ListItem listItem2 = ListItem(null, '잇섭');
+        ListItem listItem2 = ListItem(null, '워크맨');
         dbHelper.save(listItem2);
-        ListItem listItem3 = ListItem(null, '워크맨');
+        ListItem listItem3 = ListItem(null, '잇섭');
         dbHelper.save(listItem3);
         ListItem listItem4 = ListItem(null, '컬투쇼 레전드');
         dbHelper.save(listItem4);
@@ -97,16 +99,18 @@ class _ListPageState extends State<ListPage> {
     controller.text = '';
   }
 
+
+
   @override
   Widget build(BuildContext context) { 
     return Scaffold(
       appBar: AppBar(
-        title : Text('jtbPlayer'),
+        title : Text('JTB Player'),
         centerTitle: true,
       ),
       body : new Container(
         child: new Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           mainAxisSize: MainAxisSize.min,
           verticalDirection: VerticalDirection.down,
           children: <Widget>[
@@ -173,39 +177,50 @@ class _ListPageState extends State<ListPage> {
   // }
 
   SingleChildScrollView dataList(List<ListItem> listItems){
-   return SingleChildScrollView(
+    return SingleChildScrollView(
       scrollDirection: Axis.vertical,
-      child: DataTable(
+      
+      child:  DataTable(
         horizontalMargin : 0,
+        sortAscending: true,
         columns: [
           DataColumn(
-            label: Text('TITLE'),
+            label: Text('제목'),
+            //numeric: true,
           ),
+          
           DataColumn(
-            label: Text('DELETE'),
+            label: Text('삭제'),
+            //numeric: true,
           )
         ],
         rows: listItems.map(
-          (listItem) => DataRow(cells: [
-            DataCell(
-              Text(listItem.title),
-              onTap: () {
-                setState(() {
-                  search(listItem.title);
-                });
-              },
+          (listItem) => 
+          DataRow(
+            cells: [
+              DataCell(
+                Text(listItem.title),
+                
+                onTap: () {
+                  setState(() {
+                    search(listItem.title);
+                  });
+                },
+              ),
+            
+              DataCell(IconButton(
+                icon: Icon(Icons.delete),
+                onPressed: () {
+                  dbHelper.delete(listItem.id);
+                  refreshList();
+                },
+              )
             ),
-            DataCell(IconButton(
-              icon: Icon(Icons.delete),
-              onPressed: () {
-                dbHelper.delete(listItem.id);
-                refreshList();
-              },
-            )),
           ]),
         )
         .toList(),
       ),
+      
     );
   }
 
@@ -244,25 +259,28 @@ class _ListPageState extends State<ListPage> {
   voiceButton(){
     return Expanded(
       child : _buildButton(
-        onPressed: _speechRecognitionAvailable && !_isListening
-            ? () => start()
-            : null,
+        onPressed: _speechRecognitionAvailable && !_isListening 
+        ? () => start() 
+        : null,
       ),
     );
   }
+
+ 
 
   Widget _buildButton({String label, VoidCallback onPressed}) => new Padding(
       padding: new EdgeInsets.all(12.0),
       child: new FloatingActionButton(
         onPressed: onPressed,
         child: Icon(Icons.mic),
-
+        backgroundColor: _isMicPushed ? Colors.red[300] : Colors.blue[300],
       ),
     );
 
   void search(String value) {
     
-    Navigator.push(context, MaterialPageRoute(builder: (context) => YoutubeListPage( title: value,)));
+    // Navigator.push(context, MaterialPageRoute(builder: (context) => YoutubeListPage( title: value,)));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => WebPage( title: value,)));
     controller.clear();
   }
 
@@ -282,10 +300,12 @@ void activateSpeechRecognizer() {
 
 
 
-  void start() => _speech
-      // .listen(locale: selectedLang.code)
+  Future<void> start() {
+    _isMicPushed = true;
+    return _speech
       .listen(locale: "en_US")
       .then((result) => print('_MyAppState.start => result $result'));
+  }
 
   void cancel() =>
       _speech.cancel().then((result) => setState(() => _isListening = result));
@@ -303,11 +323,19 @@ void activateSpeechRecognizer() {
         () => selectedLang = languages.firstWhere((l) => l.code == locale));
   }
 
-  void onRecognitionStarted() => setState(() => _isListening = true);
+  void onRecognitionStarted() {
+   
+    return setState(() => _isListening = true);
+  } 
 
   void onRecognitionResult(String text) => setState(() => controller.text = text);
 
-  void onRecognitionComplete() => setState(() => _isListening = false);
+  void onRecognitionComplete(){
+    _isMicPushed = false;
+    return setState(() => _isListening = false);
+  } 
 
   void errorHandler() => activateSpeechRecognizer();
+
+  
 }
