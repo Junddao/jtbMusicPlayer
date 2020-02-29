@@ -1,11 +1,15 @@
+import 'package:admob_flutter/admob_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:jtbMusicPlayer/services/dbhelper.dart';
 import 'package:jtbMusicPlayer/web_page.dart';
 
 import 'package:flutter/material.dart';
+import 'package:speech_to_text/speech_recognition_error.dart';
+import 'package:speech_to_text/speech_recognition_result.dart';
+import 'package:speech_to_text/speech_to_text.dart';
 import 'data/listmodel.dart';
-import 'services/myadshelper.dart';
-import 'package:speech_recognition/speech_recognition.dart';
+// import 'services/myadshelper.dart';
+
 
 
 const languages = const [
@@ -44,7 +48,13 @@ class _ListPageState extends State<ListPage> {
 
   //ListModel<int> _list;
 
-  SpeechRecognition _speech;
+  bool _hasSpeech = false;
+  String lastWords = "";
+  String lastError = "";
+  String lastStatus = "";
+  final SpeechToText speech = SpeechToText();
+
+  // SpeechRecognition _speech;
 
   bool _speechRecognitionAvailable = false;
   bool _isListening = false;
@@ -55,7 +65,9 @@ class _ListPageState extends State<ListPage> {
   String name;
   int curUserId;
 
-
+  bool hasAds = false;
+  
+  
   
   Future<List<ListItem>> listItems;
   TextEditingController controller = TextEditingController();
@@ -65,6 +77,7 @@ class _ListPageState extends State<ListPage> {
   @override
   void initState() {
     super.initState();  
+    initSpeechState();
 
     dbHelper = DBHelper();
     refreshList();
@@ -73,20 +86,28 @@ class _ListPageState extends State<ListPage> {
       if(data.isEmpty) {
         ListItem listItem1 = ListItem(null, '뽀로로');
         dbHelper.save(listItem1);
-        ListItem listItem2 = ListItem(null, '워크맨');
+        ListItem listItem2 = ListItem(null, '타요');
         dbHelper.save(listItem2);
-        ListItem listItem3 = ListItem(null, '잇섭');
+        ListItem listItem3 = ListItem(null, '코코몽');
         dbHelper.save(listItem3);
         ListItem listItem4 = ListItem(null, '컬투쇼 레전드');
         dbHelper.save(listItem4);
+        ListItem listItem5 = ListItem(null, '2000년 발라드');
+        dbHelper.save(listItem5);
         refreshList();
       }
     });
+  }
 
-    // activateSpeechRecognizer();
-    Ads.showBannerAd();
 
-    //_list = ListModel<int>(initialItems: <int>[]);
+
+  Future<void> initSpeechState() async {
+    bool hasSpeech = await speech.initialize(onError: errorListener, onStatus: statusListener );
+
+    if (!mounted) return;
+    setState(() {
+      _hasSpeech = hasSpeech;
+    });
   }
 
   refreshList() {
@@ -103,6 +124,7 @@ class _ListPageState extends State<ListPage> {
 
   @override
   Widget build(BuildContext context) { 
+    
     return Scaffold(
       appBar: AppBar(
         title : Text('JTB Player'),
@@ -110,13 +132,15 @@ class _ListPageState extends State<ListPage> {
       ),
       body : new Container(
         child: new Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           verticalDirection: VerticalDirection.down,
           children: <Widget>[
             form(),
             list(), 
             voiceButton(),
+            showBanner(),
+            // Padding( padding: new EdgeInsets.only(bottom: 50.0, ),),
           ],
         ),
       ),
@@ -160,6 +184,18 @@ class _ListPageState extends State<ListPage> {
           ],
         ),
       ),
+    );
+  }
+
+  showBanner(){
+    return AdmobBanner(
+      adUnitId: "ca-app-pub-9695790043722201/3765282201",
+      adSize: AdmobBannerSize.BANNER,
+      listener: (AdmobAdEvent event, Map<String, dynamic> args){
+        if(event == AdmobAdEvent.clicked){
+
+        }
+      },
     );
   }
 
@@ -256,15 +292,92 @@ class _ListPageState extends State<ListPage> {
     );
   }
 
+  
+  // voiceButton(){
+  //   return Row(
+  //     mainAxisAlignment: MainAxisAlignment.center,
+  //     crossAxisAlignment: CrossAxisAlignment.start,
+  //     children: <Widget>[
+  //       FlatButton(
+  //         child: Text('Start'),
+  //         onPressed: startListening,
+  //       ),
+  //       FlatButton(
+  //         child: Text('Stop'),
+  //         onPressed: stopListening,
+  //       ),
+  //       FlatButton(
+  //         child: Text('Cancel'),
+  //         onPressed:cancelListening,
+  //       ),
+  //     ],
+  //   );
+  // }
+
   voiceButton(){
     return Expanded(
       child : _buildButton(
-        onPressed: _speechRecognitionAvailable && !_isListening 
-        ? () => start() 
-        : null,
+        onPressed: speech.isListening
+        ? () => stopListening
+        : startListening,
       ),
     );
   }
+
+  
+  void startListening() {
+    _isMicPushed = true;
+    lastWords = "";
+    lastError = "";
+    speech.listen(onResult: resultListener );
+    setState(() {
+      
+    });
+  }
+  
+  void stopListening() {
+    _isMicPushed = false;
+    speech.stop( );
+    setState(() {
+      
+    });
+  }
+
+  void cancelListening() {
+    speech.cancel( );
+    setState(() {
+      
+    });
+  }
+
+  void resultListener(SpeechRecognitionResult result) {
+    setState(() {
+      // lastWords = "${result.recognizedWords} - ${result.finalResult}";
+      controller.text = "${result.recognizedWords}";
+    });
+  }
+
+  void errorListener(SpeechRecognitionError error ) {
+    setState(() {
+      lastError = "${error.errorMsg} - ${error.permanent}";
+    });
+  }
+  void statusListener(String status ) {
+    setState(() {
+      lastStatus = "$status";
+    });
+  }
+
+
+  // voiceButton(){
+  //   return Expanded(
+  //     child : _buildButton(
+  //       onPressed: _speechRecognitionAvailable && !_isListening 
+  //       ? () => start() 
+  //       : null,
+  //     ),
+  //   );
+  // }
 
  
 
@@ -273,69 +386,67 @@ class _ListPageState extends State<ListPage> {
       child: new FloatingActionButton(
         onPressed: onPressed,
         child: Icon(Icons.mic),
-        backgroundColor: _isMicPushed ? Colors.red[300] : Colors.blue[300],
+        backgroundColor: speech.isListening ? Colors.red[300] : Colors.blue[300],
       ),
     );
 
   void search(String value) {
-    
-    // Navigator.push(context, MaterialPageRoute(builder: (context) => YoutubeListPage( title: value,)));
     Navigator.push(context, MaterialPageRoute(builder: (context) => WebPage( title: value,)));
     controller.clear();
   }
 
 
-void activateSpeechRecognizer() {
-    print('_MyAppState.activateSpeechRecognizer... ');
-    _speech = new SpeechRecognition();
-    _speech.setAvailabilityHandler(onSpeechAvailability);
-    _speech.setCurrentLocaleHandler(onCurrentLocale);
-    _speech.setRecognitionStartedHandler(onRecognitionStarted);
-    _speech.setRecognitionResultHandler(onRecognitionResult);
-    _speech.setRecognitionCompleteHandler(onRecognitionComplete);
-    _speech
-        .activate()
-        .then((res) => setState(() => _speechRecognitionAvailable = res));
-  }
+// void activateSpeechRecognizer() {
+//     print('_MyAppState.activateSpeechRecognizer... ');
+//     _speech = new SpeechRecognition();
+//     _speech.setAvailabilityHandler(onSpeechAvailability);
+//     _speech.setCurrentLocaleHandler(onCurrentLocale);
+//     _speech.setRecognitionStartedHandler(onRecognitionStarted);
+//     _speech.setRecognitionResultHandler(onRecognitionResult);
+//     _speech.setRecognitionCompleteHandler(onRecognitionComplete);
+//     _speech
+//         .activate()
+//         .then((res) => setState(() => _speechRecognitionAvailable = res));
+//   }
 
 
 
-  Future<void> start() {
-    _isMicPushed = true;
-    return _speech
-      .listen(locale: "en_US")
-      .then((result) => print('_MyAppState.start => result $result'));
-  }
+//   Future<void> start() {
+//     _isMicPushed = true;
+//     return _speech
+//       .listen(locale: "en_US")
+//       .then((result) => print('_MyAppState.start => result $result'));
+//   }
 
-  void cancel() =>
-      _speech.cancel().then((result) => setState(() => _isListening = result));
+//   void cancel() =>
+//       _speech.cancel().then((result) => setState(() => _isListening = result));
 
-  void stop() => _speech.stop().then((result) {
-        setState(() => _isListening = result);
-      });
+//   void stop() => _speech.stop().then((result) {
+//         setState(() => _isListening = result);
+//       });
 
-  void onSpeechAvailability(bool result) =>
-      setState(() => _speechRecognitionAvailable = result);
+//   void onSpeechAvailability(bool result) =>
+//       setState(() => _speechRecognitionAvailable = result);
 
-  void onCurrentLocale(String locale) {
-    print('_MyAppState.onCurrentLocale... $locale');
-    setState(
-        () => selectedLang = languages.firstWhere((l) => l.code == locale));
-  }
+//   void onCurrentLocale(String locale) {
+//     print('_MyAppState.onCurrentLocale... $locale');
+//     setState(
+//         () => selectedLang = languages.firstWhere((l) => l.code == locale));
+//   }
 
-  void onRecognitionStarted() {
+//   void onRecognitionStarted() {
    
-    return setState(() => _isListening = true);
-  } 
+//     return setState(() => _isListening = true);
+//   } 
 
-  void onRecognitionResult(String text) => setState(() => controller.text = text);
+//   void onRecognitionResult(String text) => setState(() => controller.text = text);
 
-  void onRecognitionComplete(){
-    _isMicPushed = false;
-    return setState(() => _isListening = false);
-  } 
+//   void onRecognitionComplete(){
+//     _isMicPushed = false;
+//     return setState(() => _isListening = false);
+//   } 
 
-  void errorHandler() => activateSpeechRecognizer();
+//   void errorHandler() => activateSpeechRecognizer();
 
   
 }

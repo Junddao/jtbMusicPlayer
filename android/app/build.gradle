@@ -51,8 +51,8 @@ android {
         versionName flutterVersionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
-        versionCode 6
-        versionName "1.4.1"
+        versionCode 11
+        versionName "1.4.6"
     }
     signingConfigs {
        release {
@@ -68,10 +68,10 @@ android {
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.release
 
-            // minifyEnabled true
-            // useProguard true
+            minifyEnabled true
+            useProguard true
 
-            // proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }

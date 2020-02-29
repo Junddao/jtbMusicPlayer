@@ -1,8 +1,7 @@
+import 'package:admob_flutter/admob_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:jtbMusicPlayer/data/tabstates.dart';
 import 'package:jtbMusicPlayer/rootpage.dart';
 import 'package:provider/provider.dart';
-import 'package:jtbMusicPlayer/data/youtube_api.dart';
 import 'data/userinfo.dart';
 import 'package:splashscreen/splashscreen.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -10,6 +9,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 
 void main(){
+  Admob.initialize("com.jtb.jtbMusicPlayer");
   runApp(
     new MaterialApp(
       home: MyApp(),
@@ -59,7 +59,6 @@ class AfterSplash extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<UserInfomation>( builder : (context) => UserInfomation(),),
-        ChangeNotifierProvider<TabStates> (builder : (context) => TabStates(),),
         // ChangeNotifierProvider<YoutubeInfo> (builder: (context) => YoutubeInfo(),),
       ] ,
       child: MaterialApp(

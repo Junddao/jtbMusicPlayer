@@ -19,6 +19,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  admob_flutter: ^0.3.4
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -32,14 +33,22 @@ dependencies:
   http: ^0.12.0+2
   # youtube_player: ^3.5.0
   # youtube_api: ^0.7.2
-  firebase_admob: ^0.9.0+7
+  # firebase_admob: ^0.9.0+7
   flutter_launcher_icons: ^0.7.3
   sqflite: ^1.1.6+4
   path_provider: ^1.3.0
   splashscreen: ^1.2.0
-  speech_recognition: ^0.3.0+1
+  # speech_recognition: ^0.3.0+1
   permission_handler: ^3.2.2
-  flutter_inappbrowser: ^2.0.2
+  # flutter_inappbrowser: ^2.0.2
+  speech_to_text: ^0.8.0
+  # flutter_inappwebview: ^2.1.0+1
+  hardware_buttons: ^1.0.0
+  flutter_inappwebview :
+    git:
+      url: git://github.com/pichillilorenzo/flutter_inappwebview.git
+      ref: master
+
   
 
 flutter_icons:
